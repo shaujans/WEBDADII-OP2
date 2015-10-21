@@ -1,10 +1,305 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <title>ContentTools</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ContenTools tutorial en demo</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="320">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/site.css">
+    <link rel="stylesheet" type="text/css" href="build/content-tools.min.css">
 </head>
-<body>
-<h1>Hello world!</h1>
+
+<body class="page">
+
+<header class="page__header">
+    <div class="page__container">
+
+        <div data-editable="" data-name="page__heading">
+            <h1 class="page__heading">ContentTools</h1>
+        </div>
+
+        <div data-editable="" data-name="page__opening">
+            <p class="page__opening">
+                De jQuery inline code editor plugin integreren in enkele simpele stappen.
+            </p>
+        </div>
+
+    </div>
+</header>
+
+
+<main class="page__main">
+    <div class="page__container">
+        <section class="[ page__content ]  [ formatted ]" data-editable="" data-name="page__content">
+            <h2 id="intro">Een kleine intro</h2>
+
+            <p>
+                ContentTools is een jQuery plugin die het gemakkelijk maakt om een HTML pagina te bewerken.
+                Voor ontwikkelaars die de plugin graag bewerken is een krachtige
+                <a href="http://getcontenttools.com/api">API</a> voorzien.
+            </p>
+
+            <h2 id="download">Download</h2>
+
+            <p>
+                De eerste taak is om de Javascript, CSS en andere pluginbestanden te downloaden.
+                <a href="https://github.com/GetmeUK/ContentTools/archive/master.zip">Download de repository</a> en
+                open de <b>/build</b> map. Hierin staan alle nodige bestanden om de plugin te laten werken.
+                Kopieer alle bestanden zoals hieronder aangegeven:
+            </p>
+<pre>/site
+    /assets
+        /images
+            - ce-drop-above.png
+            - ce-drop-below.png
+            - ce-drop-left.png
+            - ce-drop-right.png
+            - video.png
+        - content-tools.min.js
+        - content-tools.min.css
+        - icons.woff
+</pre>
+
+            <h2 id="prepare-html">HTML voorbereiden</h2>
+
+            <p>
+                Integreer ContentTools' CSS en Javascript zoals hieronder aangegeven in je HTML bestand:
+            </p>
+
+<pre class=" language-markup"><code class=" language-markup"><span class="token tag"><span class="token tag"><span
+        class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span
+            class="token punctuation">&gt;</span></span>My page<span class="token tag"><span class="token tag"><span
+            class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span
+            class="token attr-name">rel</span><span class="token attr-value"><span
+            class="token punctuation">=</span><span class="token punctuation">"</span>stylesheet<span
+            class="token punctuation">"</span></span> <span class="token attr-name">type</span><span
+            class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text/css<span
+            class="token punctuation">"</span></span> <span class="token attr-name">href</span><span
+            class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>assets/content-tools.min.css<span
+            class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    ...
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span
+            class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span
+            class="token punctuation">&gt;</span></span>
+    ...
+    <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span
+            class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span
+            class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>assets/content-tools.min.js<span
+            class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span
+            class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span
+            class="token punctuation">&gt;</span></span></span>
+    <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span
+            class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span
+            class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>assets/editor.js<span
+            class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span
+            class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span
+            class="token punctuation">&gt;</span></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span
+            class="token punctuation">&gt;</span></span></code></pre>
+
+            <p>
+                Let er op dat we ook een leeg bestand <b>editor.js</b> toevoegen aan het HTML document.
+                Dit moet je zelf aanmaken en wordt later gevuld met de initialisatiecode en configuratie voor de plugin.
+            </p>
+
+            <p>
+                De volgende stap is het markeren van de bewerkbare delen. Enkel de ouders (parents) van de bewerkbare
+                delen worden
+                gemarkeerd. Het <b>data-name</b>-attribuut wordt gebruikt om regio's te identificeren tijdens het
+                opslaan.
+                Standaard wordt het <b>id</b> gebruikt maar het is beter om dit van elkaar te scheiden. Een voorbeeld
+                hieronder:
+            </p>
+
+<pre class=" language-markup"><code class=" language-markup"><span class="token tag"><span class="token tag"><span
+        class="token punctuation">&lt;</span>div</span> <span class="token attr-name">data-editable</span> <span
+        class="token attr-name">data-name</span><span class="token attr-value"><span
+        class="token punctuation">=</span><span class="token punctuation">"</span>main-content<span
+        class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>blockquote</span><span
+            class="token punctuation">&gt;</span></span>
+    Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>blockquote</span><span
+            class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span
+            class="token punctuation">&gt;</span></span>John F. Woods<span class="token tag"><span
+            class="token tag"><span class="token punctuation">&lt;/</span>p</span><span
+            class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+        class="token punctuation">&gt;</span></span></code></pre>
+
+            <h2 id="launch-editor">De plugin initialiseren</h2>
+
+            <p>
+                Alvorens ContentTools kan beginnen werken moeten we nog enkele kleine dingen configureren:
+            </p>
+
+            <ul>
+                <li>
+                    De regio's op de pagina die mogen bewerkt worden.
+                </li>
+                <li>
+                    Het opslaan van het bewerkt bestand.
+                </li>
+                <li>
+                    <i>Eventueel de afhandeling van de afbeeldingen. Hiervoor is er een extra <a
+                            href="http://getcontenttools.com/tutorials/handling-image-uploads">tutorial</a>.</i>
+                </li>
+            </ul>
+
+            <p>
+                Voeg onderstaande code toe aan het <b>editor.js</b> bestand dat we al hebben aangemaakt:
+            </p>
+
+<pre class=" language-javascript"><code class=" language-javascript">window<span class="token punctuation">.</span><span
+        class="token function">addEventListener</span><span class="token punctuation">(</span><span
+        class="token string">'load'</span><span class="token punctuation">,</span> <span
+        class="token keyword">function</span><span class="token punctuation">(</span><span
+        class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> editor<span class="token punctuation">;</span>
+
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span
+            class="token punctuation">;</span></code></pre>
+
+            <h3 id="select-the-editable-regions">Selecteer de bewerkbare regio's</h3>
+
+            <p>
+                Als volgende moeten we moeten we de plugin initialiseren en de regio's selecteren die mogen bewerkt
+                worden. Dit doe je door onderstaande code toe te voegen aan <b>editor.js</b>:
+            </p>
+
+<pre class=" language-javascript"><code class=" language-javascript">editor <span class="token operator">=</span>
+    ContentTools<span class="token punctuation">.</span>EditorApp<span class="token punctuation">.</span><span
+            class="token keyword">get</span><span class="token punctuation">(</span><span
+            class="token punctuation">)</span><span class="token punctuation">;</span>
+    editor<span class="token punctuation">.</span><span class="token function">init</span><span
+            class="token punctuation">(</span><span class="token string">'*[data-editable]'</span><span
+            class="token punctuation">,</span> <span class="token string">'data-name'</span><span
+            class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+            <p>
+                We hebben eerder al de HTML voorbereid door de data selector. De bovenstaande code laat de plugin weten
+                dat deze selectoren moeten worden gebruikt.
+            </p>
+
+            <h3 id="save-changes">Aanpassingen opslaan</h3>
+
+            <p>
+                Als laatste moeten we het aangepast bestand opslaan in een database of een bestand. Hiervoor luisteren
+                we naar het <b>save</b> event en slaan we alle aanpassingen op via AJAX en een server-side script.
+                Voeg onderstaande code toe aan <b>editor.js</b> onder de initialisatiecode:
+            </p>
+
+<pre class=" language-javascript"><code class=" language-javascript">editor<span class="token punctuation">.</span><span
+        class="token function">bind</span><span class="token punctuation">(</span><span
+        class="token string">'save'</span><span class="token punctuation">,</span> <span
+        class="token keyword">function</span> <span class="token punctuation">(</span>regions<span
+        class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> name<span class="token punctuation">,</span> payload<span
+            class="token punctuation">,</span> xhr<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Set the editor as busy while we save our changes</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span
+            class="token function">busy</span><span class="token punctuation">(</span><span
+            class="token keyword">true</span><span class="token punctuation">)</span><span
+            class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Collect the contents of each region into a FormData instance</span>
+    payload <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FormData</span><span
+            class="token punctuation">(</span><span class="token punctuation">)</span><span
+            class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>name <span
+            class="token keyword">in</span> regions<span class="token punctuation">)</span> <span
+            class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>regions<span
+            class="token punctuation">.</span><span class="token function">hasOwnProperty</span><span
+            class="token punctuation">(</span>name<span class="token punctuation">)</span><span
+            class="token punctuation">)</span> <span class="token punctuation">{</span>
+    payload<span class="token punctuation">.</span><span class="token function">append</span><span
+            class="token punctuation">(</span>name<span class="token punctuation">,</span> regions<span
+            class="token punctuation">[</span>name<span class="token punctuation">]</span><span
+            class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// Send the update content to the server to be saved</span>
+    <span class="token keyword">function</span> <span class="token function">onStateChange</span><span
+            class="token punctuation">(</span>ev<span class="token punctuation">)</span> <span
+            class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Check if the request is finished</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>ev<span
+            class="token punctuation">.</span>target<span class="token punctuation">.</span>readyState <span
+            class="token operator">==</span> <span class="token number">4</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+    editor<span class="token punctuation">.</span><span class="token function">busy</span><span
+            class="token punctuation">(</span><span class="token keyword">false</span><span
+            class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>ev<span
+            class="token punctuation">.</span>target<span class="token punctuation">.</span>status <span
+            class="token operator">==</span> <span class="token string">'200'</span><span
+            class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Save was successful, notify the user with a flash</span>
+    <span class="token keyword">new</span> <span class="token class-name">ContentTools<span
+            class="token punctuation">.</span>FlashUI</span><span class="token punctuation">(</span><span
+            class="token string">'ok'</span><span class="token punctuation">)</span><span
+            class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span
+            class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Save failed, notify the user with a flash</span>
+    <span class="token keyword">new</span> <span class="token class-name">ContentTools<span
+            class="token punctuation">.</span>FlashUI</span><span class="token punctuation">(</span><span
+            class="token string">'no'</span><span class="token punctuation">)</span><span
+            class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    xhr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XMLHttpRequest</span><span
+            class="token punctuation">(</span><span class="token punctuation">)</span><span
+            class="token punctuation">;</span>
+    xhr<span class="token punctuation">.</span><span class="token function">addEventListener</span><span
+            class="token punctuation">(</span><span class="token string">'readystatechange'</span><span
+            class="token punctuation">,</span> onStateChange<span class="token punctuation">)</span><span
+            class="token punctuation">;</span>
+    xhr<span class="token punctuation">.</span><span class="token function">open</span><span
+            class="token punctuation">(</span><span class="token string">'POST'</span><span
+            class="token punctuation">,</span> <span class="token string">'/save-my-page'</span><span
+            class="token punctuation">)</span><span class="token punctuation">;</span>
+    xhr<span class="token punctuation">.</span><span class="token function">send</span><span
+            class="token punctuation">(</span>payload<span class="token punctuation">)</span><span
+            class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span
+            class="token punctuation">;</span></code></pre>
+
+            <p>
+                Server-side moet het opslaan nog worden afgehandeld. Hiervoor is een
+                <a href="http://getcontenttools.com/tutorials/saving-strategies">extra tutorial</a> waarmee je op weg
+                wordt gezet. Helaas is hiervoor geen kant-en-klaar PHP bestand voor geschreven.
+            </p>
+
+            <h2 id="all-done">Demo!</h2>
+
+            <p>
+                Eigenlijk zit je al de hele tijd naar de demo te kijken. Klik op het icoon bovenaan links om de editor
+                te starten en de pagina aan te passen.
+            </p>
+
+        </section>
+    </div>
+</main>
+
+<script type="text/javascript" src="build/content-tools.js"></script>
+<script src="js/editor.js"></script>
+
+<script src="js/site.js"></script>
+<script src="js/prism.js"></script>
+
 </body>
 </html>
